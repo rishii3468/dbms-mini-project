@@ -8,6 +8,7 @@ import serveStatic from "serve-static";
 import notesRoutes from "./routes/notesRoutes.js";
 import cropRoutes from "./routes/cropRoutes.js";
 import equipmentRoutes from "./routes/equipmentsRoutes.js";
+import verifyRoutes from "./routes/verifyRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import connectDB from "./config/db.js";  
 import corsOptions from "./config/corsOptions.js";
@@ -46,8 +47,10 @@ const __dirname = path.resolve();
     app.use("/api/notes", notesRoutes);
 
     app.use(verifyJWT);
+    
     app.use("/api/crops", cropRoutes);
     app.use("/api/equipments", equipmentRoutes);
+    app.use("/api/verify", verifyRoutes);
 
     // Static files (frontend build)
     app.use(

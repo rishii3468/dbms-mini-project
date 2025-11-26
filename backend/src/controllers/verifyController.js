@@ -1,5 +1,4 @@
-import { VerifyModel } from "../models/Verify";
-
+import { VerifyModel } from "../models/Verify.js";
 
 export const verifyEquipment = async (req, res) => {
   try {

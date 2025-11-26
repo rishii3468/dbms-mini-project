@@ -103,7 +103,13 @@ export default function CommunityNotesPage() {
           author: editingNote.author
         };
 
-        const response = await api.put(`/notes/${editingNote.id}`, updateData);
+        const response = await api.put(`/notes/${editingNote.id}`, updateData, {
+          headers: {
+            'Content-Type': 'application/json'
+            
+          }
+        }
+        );
         console.log("Note updated:", response.data);
 
         const updatedNotes = notes.map(note => 
