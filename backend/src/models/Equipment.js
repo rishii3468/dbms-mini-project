@@ -54,7 +54,7 @@ export const EquipmentModel = {
        WHERE id=?`,
       [name, verified || false, description, ownerName, city, state, buyPrice, rentPricePerDay, id]
     );
-
+    await connectDB.query("UPDATE equipments SET updatedAt = CURRENT_TIMESTAMP WHERE id = ?", [id]);
     return result.affectedRows > 0;
   },
 };

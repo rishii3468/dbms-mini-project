@@ -77,10 +77,20 @@ const VerifiedFarmerForm = () => {
     const envCompliance = answers[2]?.main === "Yes";
     const warrantyService = answers[3]?.main !== "No";
     const token = localStorage.getItem("accessToken");
+    const verification = {
+      age,
+      name: answers[0]?.main,
+      serialNumber: answers[1]?.main,
+    }
     if (safety && age < 10 && condition !== "Poor" && envCompliance && warrantyService) {
       try {
-        console.log("Equipment ID:", equipmentId);
+        
         await api.put(`/equipments/${equipmentId}`, { verified: true }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        await api.post(`/verify`, verification, equipmentId, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
