@@ -41,6 +41,14 @@ const ListEquipment = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
+    const buyPrice = parseFloat(formData.buyPrice);
+    const rentPrice = parseFloat(formData.rentPricePerDay);
+
+    if (isNaN(buyPrice) || isNaN(rentPrice) || buyPrice <= 0 || rentPrice <= 0) {
+      setError("Prices must be valid positive numbers");
+      return;
+    }
+
     const payload = {
       name: formData.name,
       ownerName: formData.ownerName,
@@ -49,13 +57,14 @@ const ListEquipment = () => {
         state: formData.state,
       },
       description: formData.description,
-      buyPrice: Number(formData.buyPrice),
-      rentPricePerDay: Number(formData.rentPricePerDay),
+      buyPrice: buyPrice,
+      rentPricePerDay: rentPrice,
       verified: false,
     };
     const token = localStorage.getItem("accessToken");
     try {
       setLoading(true);
+      console.log("Sending payload:", payload);
       await api.post('/equipments/create', payload, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -65,7 +74,7 @@ const ListEquipment = () => {
       toast.success("Equipment listed successfully!");
       navigate('/equipment');
     } catch (err) {
-      console.error(err);
+      console.error("Error response:", err.response?.data);
       setError("Failed to list equipment. Please try again.");
     } finally {
       setLoading(false);
